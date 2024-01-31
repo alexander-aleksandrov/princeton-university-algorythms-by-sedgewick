@@ -1,4 +1,4 @@
-class QU:
+class WeightedQuickUnionUF:
     def __init__(self, n):
         self.id = [i for i in range(n)]
         self.sz = [1 for i in range(n)]

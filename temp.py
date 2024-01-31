@@ -1,7 +1,7 @@
-from quiq_union import QU
+from UF import WeightedQuickUnionUF
 
 def main():
-    qu = QU(20)
+    qu = WeightedQuickUnionUF(20)
     qu.union(0, 1)
     qu.union(2, 3)
     print(qu.is_connected(2, 0))

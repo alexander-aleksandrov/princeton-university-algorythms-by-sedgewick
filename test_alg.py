@@ -1,10 +1,10 @@
-from quiq_union import QU
+from UF import WeightedQuickUnionUF
 from quiq_find import QF
 import pytest
 
 @pytest.fixture
 def qu_20():
-    qu = QU(20)
+    qu = WeightedQuickUnionUF(20)
     qu.union(0, 1)
     qu.union(2, 3)
     qu.union(0, 2)
@@ -22,7 +22,7 @@ def qf_20():
 
 @pytest.fixture
 def qu_find_max_20():
-    qu = QU(20)
+    qu = WeightedQuickUnionUF(20)
     qu.union(1, 2)
     qu.union(2, 6)
     qu.union(9, 6)
