@@ -43,9 +43,6 @@ class Percolation:
         if self.is_open(row, col):
             return self._qu.is_connected(0, self.id(row, col)+1)
 
-    def number_of_open_sites(self):
-        return sum(self._grid)
-
     def percolates(self):
         return self._qu.is_connected(0, self._n*self._n + 1)
     
@@ -55,12 +52,17 @@ class Percolation:
             if (i + 1)% self._n == 0:
                 print()
         return ""
+    
+
     @property
     def grid(self):
         return self._grid
+    
+    
     @property
     def count(self):
-        return self._count        
+        return self._count   
+    
 
 # draws a percolation system using Matplotlib when percolates() == True
 def draw_grid(p):
