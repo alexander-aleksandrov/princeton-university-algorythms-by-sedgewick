@@ -72,3 +72,7 @@ def test_iter_one_item(deque_with_one_item):
 def test_iter_two_items(deque_with_two_items):
     items = [i for i in deque_with_two_items]
     assert items == [1, 2]
+
+def test_iter_three_items(deque_with_three_items):
+    items = [i for i in deque_with_three_items]
+    assert items == [3, 1, 2]

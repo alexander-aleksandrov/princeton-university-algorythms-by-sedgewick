@@ -1,109 +1,133 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdOut;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private Node<Item> first;
-    private Node<Item> last;
+    private Item[] array;
+    private Integer[] deletedPlaces;
+    private int deletedTail;
+    private int tail;
     private int size;
 
-    private static class Node<Item> {
-        Item item;
-        Node<Item> next;
-        Node<Item> prev;
-
-        public Node(Item item) {
-            this.item = item;
-            this.next = null;
-            this.prev = null;
-        }
-    }
-
-    public Deque() {
-        first = null;
-        last = null;
+    @SuppressWarnings("unchecked")
+    public RandomizedQueue() {
+        array = (Item[]) new Object[1];
+        deletedPlaces = new Integer[1];
+        deletedTail = 0;
+        tail = 0;
         size = 0;
     }
 
+    private void resize(int capacity) {
+        Item[] temp = (Item[]) new Object[capacity];
+        Integer[] deletedTemp = new Integer[capacity];
+        System.arraycopy(array, 0, temp, 0, array.length);
+        System.arraycopy(deletedPlaces, 0, deletedTemp, 0, deletedPlaces.length);
+        array = temp;
+        deletedPlaces = deletedTemp;
+    }
+
     public boolean isEmpty() {
-        return first == null;
+        return size == 0;
     }
 
     public int size() {
         return size;
     }
 
-    public void addFirst(Item item) {
-        if (item == null) throw new IllegalArgumentException("Item is null");
-        Node<Item> oldFirst = first;
-        first = new Node<>(item);
-        first.next = oldFirst;
-        if (isEmpty()) last = first;
-        else oldFirst.prev = first;
+    public void enqueue(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item is null");
+        }
+        if (deletedTail > 0) {
+            array[deletedPlaces[--deletedTail]] = item;
+        } else {     
+            if (tail == array.length) { 
+                resize(2 * array.length);
+            }
+            array[tail++] = item;
+        }
         size++;
     }
 
-    public void addLast(Item item) {
-        if (item == null) throw new IllegalArgumentException("Item is null");
-        Node<Item> oldLast = last;
-        last = new Node<>(item);
-        last.prev = oldLast;
-        if (isEmpty()) first = last;
-        else oldLast.next = last;
-        size++;
-    }
-
-    public Item removeFirst() {
-        if (isEmpty()) throw new NoSuchElementException("Deque is empty");
-        Item item = first.item;
-        first = first.next;
+    public Item dequeue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("RandomizedQueue is empty");
+        }
+        int index = StdRandom.uniform(tail);
+        while (array[index] == null) {
+            index = StdRandom.uniform(tail);
+        }
+        if (deletedTail == deletedPlaces.length) {
+            resize(2 * array.length); // Note: You might want to adjust this logic
+        }
+        deletedPlaces[deletedTail++] = index;
+        Item item = array[index];
+        array[index] = null;
         size--;
-        if (isEmpty()) last = null;
-        else first.prev = null;
         return item;
     }
 
-    public Item removeLast() {
-        if (isEmpty()) throw new NoSuchElementException("Deque is empty");
-        Item item = last.item;
-        last = last.prev;
-        size--;
-        if (isEmpty()) first = null;
-        else last.next = null;
-        return item;
+    public Item sample() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("RandomizedQueue is empty");
+        }
+        int index;
+        do {
+            index = StdRandom.uniform(tail);
+        } while (array[index] == null);
+        return array[index];
     }
 
     @Override
     public Iterator<Item> iterator() {
-        return new DequeIterator(first);
+        return new RandomizedQueueIterator();
     }
 
-    private class DequeIterator implements Iterator<Item> {
-        private Node<Item> current;
+    private class RandomizedQueueIterator implements Iterator<Item> {
+        private final Item[] shuffledArray;
+        private int currentIndex = 0;
 
-        public DequeIterator(Node<Item> first) {
-            current = first;
+        @SuppressWarnings("unchecked")
+        public RandomizedQueueIterator() {
+            shuffledArray = (Item[]) new Object[size];
+            int index = 0;
+            for (Item item : array) {
+                if (item != null) {
+                    shuffledArray[index++] = item;
+                }
+            }
+            StdRandom.shuffle(shuffledArray);
         }
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return currentIndex < size;
         }
 
         @Override
         public Item next() {
-            if (!hasNext()) throw new NoSuchElementException();
-            Item item = current.item;
-            current = current.next;
-            return item;
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return shuffledArray[currentIndex++];
         }
     }
+}
+
 
     public static void main(String[] args) {
-        Deque<Integer> deque = new Deque<>();
-        deque.addFirst(1);
-        deque.addLast(2);
-        for (int item : deque) {
-            System.out.println(item);
+        RandomizedQueue<Integer> queue = new RandomizedQueue<>();
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        for (int item : queue) {
+            StdOut.println(item);
         }
+        System.out.println(queue.sample());
+        System.out.println(queue.dequeue());
+        System.out.println(queue.size());
+        System.out.println(queue.isEmpty());
     }
 }
