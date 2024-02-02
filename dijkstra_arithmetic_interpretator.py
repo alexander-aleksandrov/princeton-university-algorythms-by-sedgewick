@@ -24,6 +24,3 @@ def evaluate(expression):
             number2 = numbers.pop()
             numbers.append(operate(number2, number1, operator))        
     return numbers.pop()    
-
-if __name__ == '__main__':  
-    main()
