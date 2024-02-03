@@ -10,7 +10,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int tail;
     private int size;
 
-    @SuppressWarnings("unchecked")
+    
     public RandomizedQueue() {
         array = (Item[]) new Object[1];
         deletedPlaces = new Integer[1];
@@ -19,14 +19,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         size = 0;
     }
 
+    
+    
     private void resize(int capacity) {
         Item[] temp = (Item[]) new Object[capacity];
+
         Integer[] deletedTemp = new Integer[capacity];
+    
         System.arraycopy(array, 0, temp, 0, array.length);
         System.arraycopy(deletedPlaces, 0, deletedTemp, 0, deletedPlaces.length);
         array = temp;
         deletedPlaces = deletedTemp;
     }
+
+
 
     public boolean isEmpty() {
         return size == 0;
@@ -89,7 +95,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private final Item[] shuffledArray;
         private int currentIndex = 0;
 
-        @SuppressWarnings("unchecked")
+        
         public RandomizedQueueIterator() {
             shuffledArray = (Item[]) new Object[size];
             int index = 0;
@@ -114,8 +120,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             return shuffledArray[currentIndex++];
         }
     }
-}
-
 
     public static void main(String[] args) {
         RandomizedQueue<Integer> queue = new RandomizedQueue<>();

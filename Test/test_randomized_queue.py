@@ -1,6 +1,3 @@
-import sys
-sys.path.append('d:\\Projects\\princeton-university-algorythms-by-sedgewick')
-
 import pytest
 from randomized_queue import RandomizedQueue    
 

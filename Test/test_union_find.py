@@ -1,6 +1,3 @@
-import sys
-sys.path.append('d:\\Projects\\princeton-university-algorythms-by-sedgewick')
-
 from UF import WeightedQuickUnionUF
 from quiq_find import QF
 import pytest

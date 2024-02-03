@@ -1,30 +1,19 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdIn;
 
 public class Permutation {
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: java Permutation <int> <path>");
+        if (args.length != 1) {
+            StdOut.println("Usage: java Permutation <int>");
             return;
         }
 
         int k = Integer.parseInt(args[0]);
-        String path = args[1];
         RandomizedQueue<String> rq = new RandomizedQueue<>();
 
-        try {
-            File file = new File(path);
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNext()) {
-                String item = scanner.next();
-                rq.enqueue(item);
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + path);
-            return;
+        while (!StdIn.isEmpty()) {
+            String item = StdIn.readString();
+            rq.enqueue(item);
         }
 
         for (int i = 0; i < k; i++) {

@@ -1,6 +1,3 @@
-import sys
-sys.path.append('d:\\Projects\\princeton-university-algorythms-by-sedgewick')
-
 from dijkstra_arithmetic_interpretator import evaluate
 import pytest
 

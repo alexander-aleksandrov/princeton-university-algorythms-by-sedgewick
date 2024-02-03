@@ -1,6 +1,3 @@
-import sys
-sys.path.append('d:\\Projects\\princeton-university-algorythms-by-sedgewick')
-
 from deque import Deque
 import pytest
 
