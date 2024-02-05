@@ -3,5 +3,6 @@
         "./week3",
         "./week2",
         "./week1"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
