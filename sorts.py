@@ -6,7 +6,7 @@ def main():
     #random.shuffle(numbers)
 
     numbers = [2, 6, 12, 15, 18, 1, 5, 9, 14, 20]
-    merge(numbers, 0, 5, 10)
+    quick_sort(numbers, 0, len(numbers)-1)
     print(numbers)
 
 
@@ -123,6 +123,32 @@ def merge(arr, lo, mid, hi):
             arr[k] = right[j]
             j += 1     
 
+def quick_sort(arr, lo, hi):
+    if len(arr) == 1:
+        return arr
+    if lo >= hi:
+        return
+    k = arr[lo]
+    i = lo + 1
+    lb = lo 
+    ub = hi
+    while i <= ub:
+        if arr[i] < k:
+            arr[i], arr[lb] = arr[lb], arr[i]
+            i += 1
+            lb += 1
+        elif arr[i] > k:
+            arr[i], arr[ub] = arr[ub], arr[i]
+            ub -= 1
+        else:
+            i += 1
+                
+    quick_sort(arr, lo, lb-1)
+    quick_sort(arr, ub+1, hi)
+
+            
+            
+        
 
 
 
