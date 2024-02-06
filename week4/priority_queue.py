@@ -104,6 +104,34 @@ class MinPQ():
     def __str__(self):
         return str(self._queue[1:])
 
+class MedianPQ():
+    def __init__ (self):
+        self._min = MinPQ()
+        self._max = MaxPQ()
+
+    def insert(self, a):
+        if len(self._min) == 0:
+            self._min.insert(a)
+        elif a > self._min.peek():
+            self._min.insert(a)
+        else:
+            self._max.insert(a)
+        if len(self._min) - len(self._max) > 1:
+            self._max.insert(self._min.pop())
+        elif len(self._max) - len(self._min) > 1:
+            self._min.insert(self._max.pop())
+
+    def median(self):
+        if len(self._min) > len(self._max):
+            return self._min.pop()
+        elif len(self._min) < len(self._max):
+            return self._max.pop()
+        else:
+            return (self._min.peek() + self._max.peek())/2
+    
+    
+
+
 def main():
     pq  = MinPQ()
     pq.insert(10)

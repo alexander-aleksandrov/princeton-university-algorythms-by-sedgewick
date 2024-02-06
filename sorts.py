@@ -128,6 +128,12 @@ def quick_sort(arr, lo, hi):
         return arr
     if lo >= hi:
         return
+    lb, ub = partition(arr, lo, hi)               
+    quick_sort(arr, lo, lb-1)
+    quick_sort(arr, ub+1, hi)
+
+            
+def partition(arr, lo, hi):
     k = arr[lo]
     i = lo + 1
     lb = lo 
@@ -142,12 +148,20 @@ def quick_sort(arr, lo, hi):
             ub -= 1
         else:
             i += 1
-                
-    quick_sort(arr, lo, lb-1)
-    quick_sort(arr, ub+1, hi)
+    return lb, ub
 
-            
-            
+def quick_select(arr, k):
+    lo = 0
+    hi = len(arr) - 1
+    while lo < hi:
+        j = partition(arr, lo, hi)
+        if j < k:
+            lo = j + 1
+        elif j > k:
+            hi = j - 1
+        else:
+            return arr[k]
+    return arr[k]
         
 
 
